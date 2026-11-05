@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Identification Breakdown</title>
+<style>
+:root{
+  --bg:#ffffff; --fg:#1d1d1f; --muted:#6b6b73; --line:#e4e4e8; --card:#f7f7f9;
+  --found:#2f6fd6; --alone:#1f4fa3; --shared:#7aa6ec;
+  --notfound:#9a9aa3; --none:#c9c9cf; --few:#d98a3a; --sparse:#b85c8a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16161a; --fg:#ececf1; --muted:#a0a0aa; --line:#2c2c33; --card:#1f1f25;
+    --found:#5b8ff0; --alone:#86adf5; --shared:#3d68b8;
+    --notfound:#6f6f78; --none:#4a4a52; --few:#e09a52; --sparse:#cf79a5;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16161a; --fg:#ececf1; --muted:#a0a0aa; --line:#2c2c33; --card:#1f1f25;
+  --found:#5b8ff0; --alone:#86adf5; --shared:#3d68b8;
+  --notfound:#6f6f78; --none:#4a4a52; --few:#e09a52; --sparse:#cf79a5;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:28px 16px 48px}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 24px}
+h2{font-size:16px;margin:32px 0 10px}
+.row{display:flex;width:100%;height:56px;border-radius:8px;overflow:hidden;margin-bottom:6px}
+.seg{display:flex;flex-direction:column;justify-content:center;padding:0 10px;color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;min-width:0}
+.seg b{font-size:16px}
+.seg.dark-text{color:#1d1d1f}
+.lbl{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin:0 0 14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card .n{font-size:26px;font-weight:600}
+.card .k{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.card p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.bars{display:grid;grid-template-columns:110px 1fr 40px;gap:6px 10px;align-items:center;font-size:13px}
+.bar{height:16px;border-radius:3px;background:var(--few)}
+.bar.s{background:var(--sparse)}
+.note{color:var(--muted);font-size:13px;margin-top:18px}
+code{font-size:12px}
+</style>
+</head>
+<body>
+<main>
+<h1>Can we find each GeoLife user's home?</h1>
+<p class="sub">182 volunteers · night 21:00–07:00 Beijing time · 1 km grid squares · home night = the evening's recording ends in the square OR the morning's starts there · home needs ≥ 12 nights and home share ≥ 50%</p>
+
+<h2>Step 1 · Found vs not found</h2>
+<div class="row">
+  <div class="seg" style="flex:46;background:var(--found)"><b>46</b>found</div>
+  <div class="seg" style="flex:136;background:var(--notfound)"><b>136</b>not found</div>
+</div>
+<div class="lbl"><span>25% of users</span><span>75% of users</span></div>
+
+<h2>Step 2 · Why, in each group</h2>
+<div class="row">
+  <div class="seg" style="flex:25;background:var(--alone)"><b>25</b>alone</div>
+  <div class="seg" style="flex:21;background:var(--shared)"><b>21</b>shared</div>
+  <div class="seg dark-text" style="flex:5;background:var(--none)"><b>5</b></div>
+  <div class="seg" style="flex:95;background:var(--few)"><b>95</b>too little data</div>
+  <div class="seg" style="flex:36;background:var(--sparse)"><b>36</b>too spread out</div>
+</div>
+<div class="lbl"><span>← found (46)</span><span>not found (136) →</span></div>
+
+<div class="cards">
+  <div class="card"><span class="k" style="background:var(--alone)"></span><b>Alone in their square</b><div class="n">25</div><p>No other volunteer's home is in the same 1 km square. (Only 17 have nobody within 1 km.)</p></div>
+  <div class="card"><span class="k" style="background:var(--shared)"></span><b>Share their square</b><div class="n">21</div><p>In 6 squares. Biggest: 39.98, 116.33 with 8 users; 40.01, 116.32 with 5; four squares with 2.</p></div>
+  <div class="card"><span class="k" style="background:var(--none)"></span><b>No night data at all</b><div class="n">5</div><p>Never recorded between 21:00 and 07:00 (users 060, 107, 116, 169, 170).</p></div>
+  <div class="card"><span class="k" style="background:var(--few)"></span><b>Too little data</b><div class="n">95</div><p>Fewer than 12 nights recorded, so we can't judge, whatever the share.</p></div>
+  <div class="card"><span class="k" style="background:var(--sparse)"></span><b>Too spread out</b><div class="n">36</div><p>12+ nights, but no square has home nights on at least half of them: they move a lot, have two homes, or live on a square border.</p></div>
+</div>
+
+<h2>Too little data: how many nights they have (95 users)</h2>
+<div class="bars">
+  <span>1–2 nights</span><div class="bar" style="width:100%"></div><span>35</span>
+  <span>3–5 nights</span><div class="bar" style="width:91%"></div><span>32</span>
+  <span>6–8 nights</span><div class="bar" style="width:49%"></div><span>17</span>
+  <span>9–11 nights</span><div class="bar" style="width:31%"></div><span>11</span>
+</div>
+
+<h2>Too spread out: their best home share (36 users)</h2>
+<div class="bars">
+  <span>0.45–0.49</span><div class="bar s" style="width:40%"></div><span>6</span>
+  <span>0.40–0.44</span><div class="bar s" style="width:53%"></div><span>8</span>
+  <span>0.30–0.39</span><div class="bar s" style="width:100%"></div><span>15</span>
+  <span>under 0.30</span><div class="bar s" style="width:47%"></div><span>7</span>
+</div>
+<p class="note">14 of the 36 are close (share 0.40–0.49), for example 000 and 003 at 0.488, often because their nights split between two neighbouring squares. The rest really split their nights across places, e.g. 163 (0.22 over 383 nights) and 010 (0.26, mostly in Tianjin).</p>
+
+<p class="note">Source: <code>explore/geolife_homerule_v4.csv</code> (read-only exploration; the main One Spot CSV is unchanged).</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Squares Versus 1 km</title>
+<style>
+:root{--bg:#fff;--fg:#1d1d1f;--muted:#6b6b73;--line:#e4e4e8;--card:#f7f7f9;--grid:#c9c9d1;
+--alone:#2f6fd6;--near:#d48a1c;--shared:#7d8ca6;--home:#1d1d1f;--ring:#d24b4b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#16161a;--fg:#ececf1;--muted:#a0a0aa;--line:#2c2c33;--card:#1f1f25;--grid:#44444d;
+--alone:#5b8ff0;--near:#e6aa45;--shared:#3a4a68;--home:#ececf1;--ring:#ef6b6b}}
+:root[data-theme="dark"]{--bg:#16161a;--fg:#ececf1;--muted:#a0a0aa;--line:#2c2c33;--card:#1f1f25;--grid:#44444d;
+--alone:#5b8ff0;--near:#e6aa45;--shared:#3a4a68;--home:#ececf1;--ring:#ef6b6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+main{max-width:880px;margin:0 auto;padding:28px 16px 48px}
+h1{font-size:22px;margin:0 0 4px} h2{font-size:16px;margin:32px 0 8px}
+.sub,.note{color:var(--muted)} .note{font-size:13px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card h3{margin:0 0 6px;font-size:14px}
+svg{width:100%;height:auto;display:block}
+.ax{font-size:11px;fill:var(--muted)} .n{font-size:15px;font-weight:600;fill:#fff} .u{font-size:9px;fill:#fff}
+.lab{font-size:12px;fill:var(--fg)} .sm{font-size:11px;fill:var(--muted)}
+.row{display:flex;height:48px;border-radius:8px;overflow:hidden;margin:8px 0}
+.seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;padding:0 8px;white-space:nowrap;overflow:hidden}
+.key{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;margin:8px 0}
+.key i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+</style>
+</head>
+<body><main>
+<h1>Why 25 are "alone in their square" but only 17 have nobody within 1 km</h1>
+<p class="sub">46 users with a home · 1 km grid squares (about 1.11 km north–south × 0.85 km east–west)</p>
+
+<div class="row">
+  <div class="seg" style="flex:17;background:var(--alone)">17 nobody within 1 km</div>
+  <div class="seg" style="flex:8;background:var(--near);color:#1d1d1f">8 neighbour next door</div>
+  <div class="seg" style="flex:21;background:var(--shared)">21 share a square</div>
+</div>
+<p class="note">"Alone in the square" = 17 + 8 = 25. The 8 orange users have no one in their own square, but someone in the square right beside it.</p>
+
+<h2>The idea: a grid line can split neighbours, or join strangers</h2>
+<div class="two">
+  <div class="card"><h3>A · Close neighbours, different squares</h3>
+  <svg viewBox="0 0 280 170" aria-label="Two homes 200 m apart either side of a grid line">
+    <rect x="20" y="20" width="120" height="130" fill="none" stroke="var(--grid)" stroke-width="2"/>
+    <rect x="140" y="20" width="120" height="130" fill="none" stroke="var(--grid)" stroke-width="2"/>
+    <circle cx="128" cy="85" r="7" fill="var(--alone)"/><circle cx="152" cy="85" r="7" fill="var(--near)"/>
+    <text x="80" y="165" class="sm" text-anchor="middle">square 1</text><text x="200" y="165" class="sm" text-anchor="middle">square 2</text>
+    <text x="140" y="70" class="lab" text-anchor="middle">~200 m</text>
+  </svg>
+  <p class="note">Each is alone in its square, so both count as "alone", even though they live 200 m apart. The 1 km check catches this.</p></div>
+  <div class="card"><h3>B · Far apart, same square</h3>
+  <svg viewBox="0 0 280 170" aria-label="Two homes at opposite corners of one square">
+    <rect x="80" y="20" width="120" height="130" fill="none" stroke="var(--grid)" stroke-width="2"/>
+    <circle cx="90" cy="30" r="7" fill="var(--shared)" stroke="var(--fg)"/><circle cx="190" cy="140" r="7" fill="var(--shared)" stroke="var(--fg)"/>
+    <line x1="90" y1="30" x2="190" y2="140" stroke="var(--muted)" stroke-dasharray="4 4"/>
+    <text x="150" y="80" class="lab">~1.4 km</text>
+  </svg>
+  <p class="note">Same square, so they count as "sharing", even though they live up to 1.4 km apart.</p></div>
+</div>
+
+<h2>The real homes, around Zhongguancun</h2>
+<div class="key"><span><i style="background:var(--alone)"></i>alone, nobody within 1 km</span><span><i style="background:var(--near)"></i>alone in square, neighbour next door</span><span><i style="background:var(--shared)"></i>shared square</span></div>
+<p class="note">Each box is one 1 km square; the number is how many users have their home there. Side-by-side squares (east–west) have centres 0.85 km apart, inside 1 km; squares above or below are 1.11 km apart, just outside.</p>
+<div class="card"><svg viewBox="0 0 508 697" role="img" aria-label="Grid of home squares around Zhongguancun">
+<text x="2" y="70.5" class="ax">40.03</text>
+<rect x="50" y="20" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="20" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="162" y="20" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="218" y="20" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="274" y="20" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="330" y="20" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="386" y="20" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="442" y="20" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="2" y="143.5" class="ax">40.02</text>
+<rect x="50" y="93" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="93" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="162" y="93" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="218" y="93" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="274" y="93" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="330" y="93" width="56" height="73" fill="var(--alone)" stroke="var(--grid)"/>
+<text x="358.0" y="127.5" class="n" text-anchor="middle">1</text>
+<text x="358.0" y="142.5" class="u" text-anchor="middle">017</text>
+<rect x="386" y="93" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="442" y="93" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="2" y="216.5" class="ax">40.01</text>
+<rect x="50" y="166" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="166" width="56" height="73" fill="var(--near)" stroke="var(--grid)"/>
+<text x="134.0" y="200.5" class="n" text-anchor="middle">1</text>
+<text x="134.0" y="215.5" class="u" text-anchor="middle">035</text>
+<rect x="162" y="166" width="56" height="73" fill="var(--near)" stroke="var(--grid)"/>
+<text x="190.0" y="200.5" class="n" text-anchor="middle">1</text>
+<text x="190.0" y="215.5" class="u" text-anchor="middle">001</text>
+<rect x="218" y="166" width="56" height="73" fill="var(--shared)" stroke="var(--grid)"/>
+<text x="246.0" y="200.5" class="n" text-anchor="middle">5</text>
+<text x="246.0" y="215.5" class="u" text-anchor="middle">5 users</text>
+<rect x="274" y="166" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="330" y="166" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="386" y="166" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="442" y="166" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="2" y="289.5" class="ax">40.00</text>
+<rect x="50" y="239" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="239" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="162" y="239" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="218" y="239" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="274" y="239" width="56" height="73" fill="var(--near)" stroke="var(--grid)"/>
+<text x="302.0" y="273.5" class="n" text-anchor="middle">1</text>
+<text x="302.0" y="288.5" class="u" text-anchor="middle">005</text>
+<rect x="330" y="239" width="56" height="73" fill="var(--near)" stroke="var(--grid)"/>
+<text x="358.0" y="273.5" class="n" text-anchor="middle">1</text>
+<text x="358.0" y="288.5" class="u" text-anchor="middle">009</text>
+<rect x="386" y="239" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="442" y="239" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="2" y="362.5" class="ax">39.99</text>
+<rect x="50" y="312" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="312" width="56" height="73" fill="var(--alone)" stroke="var(--grid)"/>
+<text x="134.0" y="346.5" class="n" text-anchor="middle">1</text>
+<text x="134.0" y="361.5" class="u" text-anchor="middle">025</text>
+<rect x="162" y="312" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="218" y="312" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="274" y="312" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="330" y="312" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="386" y="312" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="442" y="312" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="2" y="435.5" class="ax">39.98</text>
+<rect x="50" y="385" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="385" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="162" y="385" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="218" y="385" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="274" y="385" width="56" height="73" fill="var(--shared)" stroke="var(--grid)"/>
+<text x="302.0" y="419.5" class="n" text-anchor="middle">8</text>
+<text x="302.0" y="434.5" class="u" text-anchor="middle">8 users</text>
+<rect x="330" y="385" width="56" height="73" fill="var(--shared)" stroke="var(--grid)"/>
+<text x="358.0" y="419.5" class="n" text-anchor="middle">2</text>
+<text x="358.0" y="434.5" class="u" text-anchor="middle">007,036</text>
+<rect x="386" y="385" width="56" height="73" fill="var(--near)" stroke="var(--grid)"/>
+<text x="414.0" y="419.5" class="n" text-anchor="middle">1</text>
+<text x="414.0" y="434.5" class="u" text-anchor="middle">154</text>
+<rect x="442" y="385" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="2" y="508.5" class="ax">39.97</text>
+<rect x="50" y="458" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="458" width="56" height="73" fill="var(--shared)" stroke="var(--grid)"/>
+<text x="134.0" y="492.5" class="n" text-anchor="middle">2</text>
+<text x="134.0" y="507.5" class="u" text-anchor="middle">022,038</text>
+<rect x="162" y="458" width="56" height="73" fill="var(--near)" stroke="var(--grid)"/>
+<text x="190.0" y="492.5" class="n" text-anchor="middle">1</text>
+<text x="190.0" y="507.5" class="u" text-anchor="middle">097</text>
+<rect x="218" y="458" width="56" height="73" fill="var(--near)" stroke="var(--grid)"/>
+<text x="246.0" y="492.5" class="n" text-anchor="middle">1</text>
+<text x="246.0" y="507.5" class="u" text-anchor="middle">056</text>
+<rect x="274" y="458" width="56" height="73" fill="var(--shared)" stroke="var(--grid)"/>
+<text x="302.0" y="492.5" class="n" text-anchor="middle">2</text>
+<text x="302.0" y="507.5" class="u" text-anchor="middle">078,095</text>
+<rect x="330" y="458" width="56" height="73" fill="var(--near)" stroke="var(--grid)"/>
+<text x="358.0" y="492.5" class="n" text-anchor="middle">1</text>
+<text x="358.0" y="507.5" class="u" text-anchor="middle">016</text>
+<rect x="386" y="458" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="442" y="458" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="2" y="581.5" class="ax">39.96</text>
+<rect x="50" y="531" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="531" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="162" y="531" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="218" y="531" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="274" y="531" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="330" y="531" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="386" y="531" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="442" y="531" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="2" y="654.5" class="ax">39.95</text>
+<rect x="50" y="604" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="106" y="604" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="162" y="604" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="218" y="604" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="274" y="604" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="330" y="604" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="386" y="604" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<rect x="442" y="604" width="56" height="73" fill="none" stroke="var(--grid)"/>
+<text x="78.0" y="692" class="ax" text-anchor="middle">116.29</text>
+<text x="134.0" y="692" class="ax" text-anchor="middle">116.30</text>
+<text x="190.0" y="692" class="ax" text-anchor="middle">116.31</text>
+<text x="246.0" y="692" class="ax" text-anchor="middle">116.32</text>
+<text x="302.0" y="692" class="ax" text-anchor="middle">116.33</text>
+<text x="358.0" y="692" class="ax" text-anchor="middle">116.34</text>
+<text x="414.0" y="692" class="ax" text-anchor="middle">116.35</text>
+<text x="470.0" y="692" class="ax" text-anchor="middle">116.36</text>
+</svg></div>
+<p class="note">This map shows 29 of the 46 homes. The other 17 are elsewhere in and outside Beijing: 15 are alone with nobody within 1 km, and 2 (044, 128) share the square at 40.08, 116.33.</p>
+<p class="note">The 8 orange users: 001, 005, 009, 016, 035, 056, 097, 154. For example, 005 (40.00, 116.33) and 009 (40.00, 116.34) are in side-by-side squares, so each is "alone", but they're about 0.85 km apart.</p>
+<p class="note">Source: explore/geolife_homerule_v4.csv (read-only exploration).</p>
+</main></body></html>
